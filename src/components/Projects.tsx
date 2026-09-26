@@ -1,45 +1,59 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import { projects } from "@/data/projects";
-import ProjectCard from "./ProjectCard";
-import ProjectRow from "./ProjectRow";
+import { fadeUp, STAGGER } from "@/lib/motion";
+import ProjectItem from "./ProjectItem";
 
 export default function Projects() {
-  const featured = projects.filter((p) => p.featured);
-  const rest = projects.filter((p) => !p.featured);
+  const reduce = useReducedMotion();
 
   return (
-    <section id="work" className="px-6 py-20">
-      <div className="mx-auto max-w-4xl">
-        <div className="max-w-2xl">
-          <p className="font-mono text-xs uppercase tracking-wide text-accent">
+    <section id="work" className="scroll-mt-20 border-t border-border px-6 py-20">
+      <div className="mx-auto max-w-6xl">
+        <div>
+          <motion.p
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp(reduce, 0)}
+            className="flex items-center gap-3 font-mono text-xs uppercase tracking-wide text-muted"
+          >
+            <span className="text-accent">01</span>
+            <span className="h-px w-6 bg-accent" />
             Selected work
-          </p>
-          <h2 className="mt-3 text-balance font-serif text-3xl sm:text-4xl">
-            Eight systems, one back-office platform.
-          </h2>
-          <p className="mt-4 text-[15px] leading-relaxed text-muted">
-            These aren&rsquo;t disconnected side projects &mdash; they&rsquo;re
-            a connected family of Laravel services I&rsquo;ve built and
-            maintained for Mary Grace, sharing auth patterns, API
-            conventions, and SAP integration points across POS, supply chain,
-            inventory, HR, and store operations.
-          </p>
+          </motion.p>
+          <motion.h2
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp(reduce, STAGGER)}
+            className="mx-auto mt-3 max-w-2xl text-balance text-center font-serif text-3xl sm:text-4xl"
+          >
+            Things I&rsquo;ve built behind the interface.
+          </motion.h2>
+          <motion.p
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp(reduce, STAGGER * 2)}
+            className="mx-auto mt-4 max-w-xl text-center text-[15px] leading-relaxed text-muted"
+          >
+            Most of the interesting work happens where users don&rsquo;t see
+            it &mdash; APIs, business logic, databases, integrations, and
+            systems that quietly keep everything running.
+          </motion.p>
         </div>
 
         <div className="mt-10">
-          {featured.map((project, i) => (
-            <ProjectCard key={project.slug} project={project} index={i} />
+          {projects.map((project, i) => (
+            <ProjectItem
+              key={project.slug}
+              project={project}
+              index={i}
+              total={projects.length}
+            />
           ))}
-        </div>
-
-        <div className="mt-16">
-          <p className="font-mono text-xs uppercase tracking-wide text-muted">
-            Other systems
-          </p>
-          <div className="mt-4">
-            {rest.map((project, i) => (
-              <ProjectRow key={project.slug} project={project} index={i} />
-            ))}
-          </div>
         </div>
       </div>
     </section>
