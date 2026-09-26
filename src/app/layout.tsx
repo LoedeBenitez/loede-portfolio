@@ -19,9 +19,12 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Loede Benitez — Full-Stack Developer",
+  title: "Loede Benitez — Backend Developer",
   description:
-    "Full-stack developer building the Laravel platforms behind Mary Grace's POS, supply chain, inventory, HR, and store operations.",
+    "Backend developer building the APIs, databases, and internal systems that run behind the interface.",
+  icons: {
+    icon: "/logo.png?v=2",
+  },
 };
 
 const themeInitScript = `

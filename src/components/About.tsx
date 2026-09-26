@@ -1,56 +1,122 @@
-const stats = [
-  { value: "8", label: "production systems" },
-  { value: "5,000+", label: "commits shipped" },
-  { value: "5", label: "Laravel major versions" },
-];
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
+import { experience } from "@/data/experience";
+import { fadeUp, STAGGER } from "@/lib/motion";
 
 export default function About() {
+  const reduce = useReducedMotion();
+
   return (
-    <section id="about" className="px-6 py-20">
-      <div className="mx-auto max-w-4xl">
-        <p className="font-mono text-xs uppercase tracking-wide text-accent">
-          About
-        </p>
-        <h2 className="mt-3 max-w-xl text-balance font-serif text-3xl sm:text-4xl">
-          I build for the store floor and the back office, not the demo.
-        </h2>
+    <section id="about" className="scroll-mt-20 px-6 py-20">
+      <div className="mx-auto max-w-6xl">
+        <motion.p
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp(reduce, 0)}
+          className="flex items-center gap-3 font-mono text-xs uppercase tracking-wide text-muted"
+        >
+          <span className="text-accent">04</span>
+          <span className="h-px w-6 bg-accent" />
+          Experience
+        </motion.p>
 
-        <div className="mt-8 grid gap-10 sm:grid-cols-[1.3fr_1fr]">
-          <div className="space-y-4 text-[15px] leading-relaxed text-muted">
-            <p>
-              I&rsquo;m a developer at Mary Grace, where I design and maintain
-              the internal platforms that keep the business running &mdash;
-              from tracking a bakery batch as it moves through production, to
-              reconciling POS sales across every branch, to routing HR
-              approvals through the real org chart.
-            </p>
-            <p>
-              Most of that work lives in Laravel, but the interesting parts
-              are rarely the framework: they&rsquo;re things like designing a
-              multi-database architecture that avoids cross-server joins, or
-              writing a Redis caching strategy that&rsquo;s deliberately tuned
-              against cache-explosion and thundering-herd failures &mdash; and
-              then writing it down so the next person (often future me)
-              doesn&rsquo;t have to reverse-engineer it.
-            </p>
-            <p>
-              I care about systems that stay correct under real operational
-              pressure: retries when SAP is down, auto-provisioning so store
-              staff aren&rsquo;t blocked by onboarding, and approval chains
-              that actually match how the organization works.
-            </p>
-          </div>
+        <motion.h2
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp(reduce, STAGGER)}
+          className="mx-auto mt-5 max-w-2xl text-balance text-center font-serif text-3xl sm:text-4xl"
+        >
+          I like building the parts nobody notices &mdash; until they stop
+          working.
+        </motion.h2>
+        <motion.p
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp(reduce, STAGGER * 2)}
+          className="mx-auto mt-4 max-w-xl text-center text-[15px] leading-relaxed text-muted"
+        >
+          I&rsquo;m a backend developer focused on building practical systems
+          for real-world operations. I enjoy turning complicated workflows
+          into reliable APIs, clean data structures, and tools that make
+          people&rsquo;s work easier.
+        </motion.p>
 
-          <dl className="flex flex-col divide-y divide-border border-y border-border sm:border-y-0 sm:border-l sm:pl-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex items-baseline justify-between gap-4 py-4 sm:justify-start sm:py-0 sm:pb-6">
-                <dt className="order-2 text-sm text-muted sm:order-2">{stat.label}</dt>
-                <dd className="order-1 font-serif text-3xl text-accent sm:order-1 sm:mr-3">
-                  {stat.value}
-                </dd>
-              </div>
+        <div className="mt-16 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={fadeUp(reduce, 0)}
+          >
+            <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-wide text-muted">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
+              Production-minded
+            </p>
+            <h3 className="mt-4 font-sans text-2xl font-bold leading-snug sm:text-3xl">
+              Clear architecture. Useful abstractions. Business problems
+              before tooling trends.
+            </h3>
+            <p className="mt-4 text-sm leading-relaxed text-muted">
+              I care about maintainability, ownership, and leaving systems
+              easier to understand than I found them.
+            </p>
+          </motion.div>
+
+          <div className="border-t border-border">
+            {experience.map((job, i) => (
+              <motion.div
+                key={job.role}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-60px" }}
+                variants={fadeUp(reduce, i * STAGGER)}
+                className="grid grid-cols-1 gap-3 border-b border-border py-8 md:grid-cols-[7rem_1fr_1.4fr] md:gap-8"
+              >
+                <p className="font-mono text-xs uppercase tracking-wide text-accent">
+                  {job.period}
+                </p>
+
+                <div>
+                  <h4 className="font-sans text-xl font-bold">{job.role}</h4>
+                  <p className="mt-1 text-sm text-muted">{job.org}</p>
+                </div>
+
+                <div>
+                  <ul className="space-y-2.5">
+                    {job.bullets.map((bullet, b) => (
+                      <li key={b} className="flex gap-2.5 text-sm leading-relaxed text-muted">
+                        <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-accent" />
+                        <span>
+                          {bullet.label && (
+                            <span className="font-semibold text-foreground">
+                              {bullet.label}:{" "}
+                            </span>
+                          )}
+                          {bullet.text}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  {job.tags && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {job.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-border px-3 py-1 font-mono text-[11px] text-foreground/80"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
             ))}
-          </dl>
+          </div>
         </div>
       </div>
     </section>
